@@ -1,4 +1,4 @@
-//
+//!
 //  MRCLoginViewController.m
 //  MVVMReactiveCocoa
 //
@@ -44,17 +44,21 @@
 
     self.avatarButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
 
+    // 用的是Octicons字体
     self.usernameImageView.image = [UIImage octicon_imageWithIdentifier:@"Person" size:CGSizeMake(22, 22)];
     self.passwordImageView.image = [UIImage octicon_imageWithIdentifier:@"Lock" size:CGSizeMake(22, 22)];
 
+    // 键盘返回类型
     self.returnKeyHandler = [[IQKeyboardReturnKeyHandler alloc] initWithViewController:self];
     self.returnKeyHandler.lastTextFieldReturnKeyType = UIReturnKeyGo;
 
+    // 填充历史登录记录
     if ([SSKeychain rawLogin] != nil) {
         self.usernameTextField.text = [SSKeychain rawLogin];
         self.passwordTextField.text = [SSKeychain password];
     }
-
+    
+    // enablesReturnKeyAutomatically
     @weakify(self)
     [[self
     	rac_signalForSelector:@selector(textFieldShouldReturn:)
@@ -76,11 +80,14 @@
     [super bindViewModel];
 
 	@weakify(self)
+    
+    // 头像图片设置
     [RACObserve(self.viewModel, avatarURL) subscribeNext:^(NSURL *avatarURL) {
     	@strongify(self)
         [self.avatarButton sd_setImageWithURL:avatarURL forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"default-avatar"]];
     }];
 
+    // 头像点击
     [[self.avatarButton
         rac_signalForControlEvents:UIControlEventTouchUpInside]
         subscribeNext:^(UIButton *avatarButton) {
@@ -95,9 +102,11 @@
             [self presentViewController:viewController animated:YES completion:NULL];
         }];
 
+    // VM的属性绑定
     RAC(self.viewModel, username) = self.usernameTextField.rac_textSignal;
     RAC(self.viewModel, password) = self.passwordTextField.rac_textSignal;
 
+    // 登录的时候endEditing 显示或者隐藏hud
     [[[RACSignal
       	merge:@[ self.viewModel.loginCommand.executing, self.viewModel.exchangeTokenCommand.executing ]]
         doNext:^(id x) {
@@ -113,6 +122,7 @@
             }
         }];
 
+    // 错误处理
     [[RACSignal
         merge:@[ self.viewModel.loginCommand.errors, self.viewModel.exchangeTokenCommand.errors ]]
         subscribeNext:^(NSError *error) {
@@ -161,6 +171,8 @@
     return UIStatusBarStyleDefault;
 }
 
+
+/// 显示头像TGRImageViewController
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {

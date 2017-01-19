@@ -22,6 +22,7 @@
 @property (nonatomic, copy, readwrite) NSArray *events;
 @property (nonatomic, assign, readwrite) BOOL isCurrentUser;
 @property (nonatomic, assign, readwrite) MRCNewsViewModelType type;
+
 @property (nonatomic, strong, readwrite) RACCommand *didClickLinkCommand;
 
 @end
@@ -51,13 +52,15 @@
     self.shouldPullToRefresh = YES;
     
     @weakify(self)
+    // 点击cell在didSelectCommand中调用 点击cell上的链接调用
     self.didClickLinkCommand = [[RACCommand alloc] initWithSignalBlock:^(NSURL *URL) {
         @strongify(self)
-        
+        // @see NSURL+MRCLink.h
         NSString *title = [[[[URL.absoluteString componentsSeparatedByString:@"?"].lastObject componentsSeparatedByString:@"="].lastObject stringByReplacingOccurrencesOfString:@"-" withString:@" "] stringByReplacingOccurrencesOfString:@"@" withString:@"#"];
         NSLog(@"didClickLinkCommand: %@, title: %@", URL, title);
         
         if (URL.type == MRCLinkTypeUser) {
+            // 点击头像
             MRCUserDetailViewModel *viewModel = [[MRCUserDetailViewModel alloc] initWithServices:self.services params:URL.mrc_dictionary];
             [self.services pushViewModel:viewModel animated:YES];
         } else if (URL.type == MRCLinkTypeRepository) {
@@ -75,12 +78,14 @@
         return [RACSignal empty];
     }];
     
+    // 点击cell
     self.didSelectCommand = [[RACCommand alloc] initWithSignalBlock:^(NSIndexPath *indexPath) {
         @strongify(self)
         MRCNewsItemViewModel *viewModel = self.dataSource[indexPath.section][indexPath.row];
         return [self.didClickLinkCommand execute:viewModel.event.mrc_Link];
     }];
     
+    // 设置events 在V中增量设置dataSource
     RAC(self, events) = [[self.requestRemoteDataCommand.executionSignals.switchToLatest
         startWith:self.fetchLocalData]
         map:^(NSArray *events) {
@@ -90,6 +95,7 @@
             } else {
                 return [events.rac_sequence takeUntilBlock:^(OCTEvent *event) {
                     @strongify(self)
+                    // 最新的在前
                     MRCNewsItemViewModel *viewModel = [self.dataSource.firstObject firstObject];
                     return [event.objectID isEqualToString:viewModel.event.objectID];
                 }].array;
@@ -115,6 +121,7 @@
             }];
     }
 }
+
 
 - (BOOL (^)(NSError *))requestRemoteDataErrorsFilter {
     return ^(NSError *error) {
@@ -179,6 +186,8 @@
             }].array;
         }];
 }
+
+/// 这个方法没用
 
 - (NSArray *)dataSourceWithEvents:(NSArray *)events {
     if (events.count == 0) return nil;

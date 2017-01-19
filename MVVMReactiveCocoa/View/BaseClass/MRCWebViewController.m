@@ -1,4 +1,4 @@
-//
+//!
 //  MRCWebViewController.m
 //  MVVMReactiveCocoa
 //
@@ -28,6 +28,7 @@
     RACSignal *didFinishLoadSignal   = [self rac_signalForSelector:@selector(webViewDidFinishLoad:) fromProtocol:@protocol(UIWebViewDelegate)];
     RACSignal *didFailLoadLoadSignal = [self rac_signalForSelector:@selector(webView:didFailLoadWithError:) fromProtocol:@protocol(UIWebViewDelegate)];
     
+    // shouldStartLoadWithRequest...返回YES时设置为MRCTitleViewTypeLoadingTitle 加载完之后切换type
     MRCTitleViewType type = self.viewModel.titleViewType;
     RAC(self.viewModel, titleViewType) = [[RACSignal
         merge:@[ didFinishLoadSignal, didFailLoadLoadSignal ]]

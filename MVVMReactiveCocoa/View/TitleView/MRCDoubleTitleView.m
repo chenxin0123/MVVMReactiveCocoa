@@ -1,4 +1,4 @@
-//
+//!
 //  MRCDoubleTitleView.m
 //  MVVMReactiveCocoa
 //
@@ -29,6 +29,7 @@
     [self addSubview:self.titleLabel];
     [self addSubview:self.subtitleLabel];
     
+    // 设置完文本自动调整size
     @weakify(self)
     RACSignal *titleLabelSignal = [RACObserve(self.titleLabel, text) doNext:^(id x) {
         @strongify(self)

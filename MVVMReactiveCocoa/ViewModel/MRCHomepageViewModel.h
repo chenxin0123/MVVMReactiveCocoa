@@ -1,4 +1,4 @@
-//
+//!
 //  MRCHomepageViewModel.h
 //  MVVMReactiveCocoa
 //
@@ -11,6 +11,8 @@
 #import "MRCReposViewModel.h"
 #import "MRCExploreViewModel.h"
 #import "MRCProfileViewModel.h"
+
+/// 提供子视图控制器的VM
 
 @interface MRCHomepageViewModel : MRCTabBarViewModel
 

@@ -1,4 +1,4 @@
-//
+//!
 //  MRCViewController.m
 //  MVVMReactiveCocoa
 //
@@ -49,6 +49,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
     
+    // pop 交互手势
     if (self.navigationController != nil && self != self.navigationController.viewControllers.firstObject) {
         UIPanGestureRecognizer *popRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePopRecognizer:)];
         [self.view addGestureRecognizer:popRecognizer];
@@ -56,15 +57,15 @@
     }
 }
 
+/// 1.导航栏标题设置
+/// 2.errors 处理
 - (void)bindViewModel {
 	// System title view
     RAC(self, title) = RACObserve(self.viewModel, title);
-
     UIView *titleView = self.navigationItem.titleView;
 
 	// Double title view
     MRCDoubleTitleView *doubleTitleView = [[MRCDoubleTitleView alloc] init];
-
     RAC(doubleTitleView.titleLabel, text)    = RACObserve(self.viewModel, title);
     RAC(doubleTitleView.subtitleLabel, text) = RACObserve(self.viewModel, subtitle);
 
@@ -118,6 +119,7 @@
     }];
 }
 
+// 保存快照
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
@@ -129,6 +131,7 @@
     }
 }
 
+// 支持的方向
 - (BOOL)shouldAutorotate {
     return YES;
 }
@@ -137,10 +140,13 @@
     return [UIDevice currentDevice].isPad ? UIInterfaceOrientationMaskAll : UIInterfaceOrientationMaskPortrait;
 }
 
+
+// iOS7之后使用这个方法 默认UIStatusBarStyleDefault
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
+/// 处理pop交互 interactivePopTransition在MRCNavigationControllerStack中使用
 #pragma mark - UIPanGestureRecognizer handlers
 
 - (void)handlePopRecognizer:(UIPanGestureRecognizer *)recognizer {

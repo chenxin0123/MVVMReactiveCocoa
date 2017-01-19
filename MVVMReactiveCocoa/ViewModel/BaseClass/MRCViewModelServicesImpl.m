@@ -11,7 +11,7 @@
 #import "MRCAppStoreServiceImpl.h"
 
 @implementation MRCViewModelServicesImpl
-
+// 登录后client有值
 @synthesize client = _client;
 @synthesize repositoryService = _repositoryService;
 @synthesize appStoreService = _appStoreService;

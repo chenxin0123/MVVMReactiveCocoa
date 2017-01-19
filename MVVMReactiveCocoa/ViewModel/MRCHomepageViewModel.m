@@ -1,4 +1,4 @@
-//
+//!
 //  MRCHomepageViewModel.m
 //  MVVMReactiveCocoa
 //

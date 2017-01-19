@@ -1,4 +1,4 @@
-//
+//!
 //  MRCDoubleTitleView.h
 //  MVVMReactiveCocoa
 //

@@ -1,4 +1,4 @@
-//
+//!
 //  MRCRouter.h
 //  MVVMReactiveCocoa
 //
@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "MRCViewController.h"
 
+
+/// 通过VM的class与视图控制器的映射 返回对应视图控制器的实例
 @interface MRCRouter : NSObject
 
 /// Retrieves the shared router instance.

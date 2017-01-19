@@ -1,4 +1,4 @@
-//
+//!
 //  MRCNavigationControllerStack.m
 //  MVVMReactiveCocoa
 //
@@ -47,8 +47,12 @@
     return self.navigationControllers.lastObject;
 }
 
+
+/// HOOK self.services的方法来执行页面转换
 - (void)registerNavigationHooks {
     @weakify(self)
+    
+    // push
     [[(NSObject *)self.services
         rac_signalForSelector:@selector(pushViewModel:animated:)]
         subscribeNext:^(RACTuple *tuple) {
@@ -66,6 +70,7 @@
             [self.navigationControllers.lastObject pushViewController:viewController animated:[tuple.second boolValue]];
         }];
 
+    // pop
     [[(NSObject *)self.services
         rac_signalForSelector:@selector(popViewModelAnimated:)]
         subscribeNext:^(RACTuple *tuple) {
@@ -80,6 +85,7 @@
             [self.navigationControllers.lastObject popToRootViewControllerAnimated:[tuple.first boolValue]];
         }];
 
+    // embedded in MRCNavigationController
     [[(NSObject *)self.services
         rac_signalForSelector:@selector(presentViewModel:animated:completion:)]
         subscribeNext:^(RACTuple *tuple) {
@@ -121,13 +127,16 @@
         }];
 }
 
+
 #pragma mark - UINavigationControllerDelegate
 
+/// 返回交互控制器 nil表示使用默认的动画
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                          interactionControllerForAnimationController:(MRCViewControllerAnimatedTransition *)animationController {
     return animationController.fromViewController.interactivePopTransition;
 }
 
+/// push返回nil
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(MRCViewController *)fromVC

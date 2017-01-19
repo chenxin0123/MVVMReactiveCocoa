@@ -1,4 +1,4 @@
-//
+//!
 //  MRCLoginViewModel.m
 //  MVVMReactiveCocoa
 //
@@ -26,12 +26,14 @@
 - (void)initialize {
     [super initialize];
     
+    // 获取头像url
     RAC(self, avatarURL) = [[RACObserve(self, username)
         map:^(NSString *username) {
             return [[OCTUser mrc_fetchUserWithRawLogin:username] avatarURL];
         }]
         distinctUntilChanged];
     
+    // 按钮是否可用
     self.validLoginSignal = [[RACSignal
     	combineLatest:@[ RACObserve(self, username), RACObserve(self, password) ]
         reduce:^(NSString *username, NSString *password) {
@@ -40,6 +42,8 @@
         distinctUntilChanged];
     
     @weakify(self)
+    
+    // 登录成功 跳转到主页
     void (^doNext)(OCTClient *) = ^(OCTClient *authenticatedClient) {
         @strongify(self)
         [[MRCMemoryCache sharedInstance] setObject:authenticatedClient.user forKey:@"currentUser"];
@@ -49,6 +53,7 @@
         [authenticatedClient.user mrc_saveOrUpdate];
         [authenticatedClient.user mrc_updateRawLogin]; // The only place to update rawLogin, I hate the logic of rawLogin.
         
+        // 账号密码token三个保存到钥匙串
         SSKeychain.rawLogin = authenticatedClient.user.rawLogin;
         SSKeychain.password = self.password;
         SSKeychain.accessToken = authenticatedClient.token;
@@ -59,6 +64,7 @@
         });
     };
     
+    // OctoKit Authentication
     [OCTClient setClientID:MRC_CLIENT_ID clientSecret:MRC_CLIENT_SECRET];
     
     self.loginCommand = [[RACCommand alloc] initWithSignalBlock:^(NSString *oneTimePassword) {

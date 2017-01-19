@@ -1,4 +1,4 @@
-//
+//!
 //  MRCRouter.m
 //  MVVMReactiveCocoa
 //
@@ -34,6 +34,7 @@
     return [[NSClassFromString(viewController) alloc] initWithViewModel:viewModel];
 }
 
+/// viewModel与视图控制器一一对应
 - (NSDictionary *)viewModelViewMappings {
     return @{
     	@"MRCLoginViewModel": @"MRCLoginViewController",

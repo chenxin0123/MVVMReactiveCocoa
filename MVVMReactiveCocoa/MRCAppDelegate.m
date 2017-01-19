@@ -44,9 +44,11 @@
     
     AFNetworkActivityIndicatorManager.sharedManager.enabled = YES;
     
+    // 视图跳转服务
     self.services = [[MRCViewModelServicesImpl alloc] init];
     self.navigationControllerStack = [[MRCNavigationControllerStack alloc] initWithServices:self.services];
 
+    // 默认显示视图 home或者login
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.services resetRootViewModel:[self createInitialViewModel]];
     [self.window makeKeyAndVisible];
@@ -72,6 +74,7 @@
     [Appirater appEnteredForeground:YES];
 }
 
+/// 创建初始VM
 - (MRCViewModel *)createInitialViewModel {
     // The user has logged-in.
     if ([SSKeychain rawLogin].isExist && [SSKeychain accessToken].isExist) {
@@ -89,6 +92,7 @@
 
 #pragma mark - Application configuration
 
+/// 数据库版本更新
 - (void)configureFMDB {
     [[FMDatabaseQueue sharedInstance] inDatabase:^(FMDatabase *db) {
         NSString *version = [[NSUserDefaults standardUserDefaults] valueForKey:MRCApplicationVersionKey];
@@ -120,11 +124,13 @@
     [UITabBar appearance].tintColor = HexRGB(colorI3);
 }
 
+/// 不显示键盘上方的toolbar 点击键盘外收起键盘
 - (void)configureKeyboardManager {
     IQKeyboardManager.sharedManager.enableAutoToolbar = NO;
     IQKeyboardManager.sharedManager.shouldResignOnTouchOutside = YES;
 }
 
+/// 绑定networkStatus属性 在子线程监听网络
 - (void)configureReachability {
     self.reachability = Reachability.reachabilityForInternetConnection;
     
@@ -153,6 +159,7 @@
     [UMSocialConfig hiddenNotInstallPlatforms:@[ UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatTimeline ]];
 }
 
+/// 提醒用户评论App的弹窗
 - (void)configureAppirater {
     [Appirater setAppId:MRC_APP_ID];
     [Appirater setDaysUntilPrompt:7];
@@ -163,6 +170,7 @@
     [Appirater appLaunched:YES];
 }
 
+/// 并没有用
 - (void)configureJSPatch {
 //    [JSPatch testScriptInBundle];
     [JSPatch startWithAppKey:MRC_JSPATCH_APP_KEY];

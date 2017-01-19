@@ -1,4 +1,4 @@
-//
+//!
 //  MRCLoginViewModel.h
 //  MVVMReactiveCocoa
 //

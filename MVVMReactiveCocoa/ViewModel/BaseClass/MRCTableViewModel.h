@@ -1,4 +1,4 @@
-//
+//!
 //  MRCTableViewModel.h
 //  MVVMReactiveCocoa
 //
@@ -18,13 +18,18 @@
 
 @property (nonatomic, assign) NSUInteger page;
 @property (nonatomic, assign) NSUInteger perPage;
-
+/// 下拉刷新
 @property (nonatomic, assign) BOOL shouldPullToRefresh;
+/// 上拉刷新
 @property (nonatomic, assign) BOOL shouldInfiniteScrolling;
 
+/// searchbar的代理方法中 根据输入改变keyword
 @property (nonatomic, copy) NSString *keyword;
 
+/// 选择cell
 @property (nonatomic, strong) RACCommand *didSelectCommand;
+
+/// 请求数据
 @property (nonatomic, strong, readonly) RACCommand *requestRemoteDataCommand;
 
 - (id)fetchLocalData;
@@ -33,6 +38,7 @@
 
 - (NSUInteger)offsetForPage:(NSUInteger)page;
 
+/// return [RACSignal empty]; requestRemoteDataCommand执行会调用这个方法
 - (RACSignal *)requestRemoteDataSignalWithPage:(NSUInteger)page;
 
 @end

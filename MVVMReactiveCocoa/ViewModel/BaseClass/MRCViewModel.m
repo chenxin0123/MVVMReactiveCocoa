@@ -1,4 +1,4 @@
-//
+//!
 //  MRCViewModel.m
 //  MVVMReactiveCocoa
 //

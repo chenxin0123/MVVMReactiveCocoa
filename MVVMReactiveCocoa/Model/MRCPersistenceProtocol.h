@@ -1,4 +1,4 @@
-//
+//!
 //  MRCPersistenceProtocol.h
 //  MVVMReactiveCocoa
 //

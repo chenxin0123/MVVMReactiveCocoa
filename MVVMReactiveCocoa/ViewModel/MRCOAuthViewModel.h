@@ -1,4 +1,4 @@
-//
+//~
 //  MRCOAuthViewModel.h
 //  MVVMReactiveCocoa
 //

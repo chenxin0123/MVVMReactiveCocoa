@@ -1,4 +1,4 @@
-//
+//!
 //  MRCViewModel.h
 //  MVVMReactiveCocoa
 //
@@ -10,6 +10,8 @@
 
 @protocol MRCViewModelServices;
 
+
+/// 导航栏标题样式
 /// The type of the title view.
 typedef NS_ENUM(NSUInteger, MRCTitleViewType) {
     /// System title view

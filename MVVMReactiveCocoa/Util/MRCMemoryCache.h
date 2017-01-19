@@ -1,4 +1,4 @@
-//
+//!
 //  MRCMemoryCache.h
 //  MVVMReactiveCocoa
 //
@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+
+/// 内存缓存
 
 @interface MRCMemoryCache : NSObject
 

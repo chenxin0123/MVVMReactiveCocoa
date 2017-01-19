@@ -17,6 +17,7 @@
 
 @implementation MRCSegmentedControlController
 
+// 作为容器
 - (void)initialize {
     UIViewController *currentViewController = self.viewControllers.firstObject;
     
@@ -24,8 +25,8 @@
     currentViewController.view.frame = self.view.bounds;
     [self.view addSubview:currentViewController.view];
     [currentViewController didMoveToParentViewController:self];
-    
     self.currentViewController = currentViewController;
+    
     
     NSArray *items = [self.viewControllers.rac_sequence map:^(UIViewController *viewController) {
         return viewController.segmentedControlItem;

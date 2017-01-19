@@ -1,4 +1,4 @@
-//
+//~
 //  YYFPSLabel.h
 //  YYKitExample
 //

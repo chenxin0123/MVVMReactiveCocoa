@@ -1,4 +1,4 @@
-//
+//!
 //  MRCTableViewController.m
 //  MVVMReactiveCocoa
 //
@@ -50,6 +50,9 @@
     return UIEdgeInsetsMake(64, 0, 0, 0);
 }
 
+/// 右边标题设置
+/// searchBar设置
+/// 刷新设置
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -116,6 +119,7 @@
                 }];
         }];
         
+        /// 是否显示下拉刷新控件 这判断不充分呀
         RAC(self.tableView, showsInfiniteScrolling) = [[RACObserve(self.viewModel, dataSource)
         	deliverOnMainThread]
             map:^(NSArray *dataSource) {
@@ -158,6 +162,7 @@
             [self reloadData];
         }];
 
+    // 正在数据的话 将emptyDataSetView设为透明
     [self.viewModel.requestRemoteDataCommand.executing subscribeNext:^(NSNumber *executing) {
         @strongify(self)
         UIView *emptyDataSetView = [self.tableView.subviews.rac_sequence objectPassingTest:^(UIView *view) {
@@ -166,6 +171,8 @@
         emptyDataSetView.alpha = 1.0 - executing.floatValue;
     }];
 }
+
+#pragma mark - Public
 
 - (void)reloadData {
     [self.tableView reloadData];
@@ -325,6 +332,10 @@
     searchBar.text = nil;
     self.viewModel.keyword = nil;
 }
+
+///------
+/// 第三方
+///------
 
 #pragma mark - DZNEmptyDataSetSource
 

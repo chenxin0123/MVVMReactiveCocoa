@@ -1,10 +1,12 @@
-//
+//!
 //  OCTUser+MRCPersistence.h
 //  MVVMReactiveCocoa
 //
 //  Created by leichunfeng on 15/1/10.
 //  Copyright (c) 2015年 leichunfeng. All rights reserved.
 //
+/// 用户信息持久化接口
+/// 用户关注 被关注数持久化
 
 #import <OctoKit/OctoKit.h>
 #import "MRCPersistenceProtocol.h"

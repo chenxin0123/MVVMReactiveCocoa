@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    /// 无网络时提示
     if (self.viewModel.type == MRCNewsViewModelTypeNews) {
         UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
         
@@ -40,11 +41,13 @@
         }];
     }
     
+    /// 导航栏标题
     @weakify(self)
     RAC(self.viewModel, titleViewType) = [self.viewModel.requestRemoteDataCommand.executing map:^(NSNumber *executing) {
         return executing.boolValue ? @(MRCTitleViewTypeLoadingTitle) : @(MRCTitleViewTypeDefault);
     }];
     
+    /// 正在请求且数据为空 显示hud 否则隐藏
     [[[RACSignal
         combineLatest:@[ self.viewModel.requestRemoteDataCommand.executing, RACObserve(self.viewModel, dataSource) ]
         reduce:^(NSNumber *executing, NSArray *dataSource) {
@@ -60,6 +63,7 @@
             }
         }];
     
+    // 设置dataSource
     [[RACObserve(self.viewModel, events)
         filter:^(NSArray *events) {
             return @(events.count > 0).boolValue;
@@ -73,14 +77,14 @@
                 dispatch_main_async_safe(^{
                     [self.tableView reloadData];
                 });
+                
             } else {
                 NSMutableArray *viewModels = [[NSMutableArray alloc] init];
-                
                 [viewModels addObjectsFromArray:[self viewModelsWithEvents:events]];
                 [viewModels addObjectsFromArray:self.viewModel.dataSource.firstObject];
-
                 self.viewModel.dataSource = @[ viewModels.copy ];
-
+                
+                // reload
                 NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
 
                 [events enumerateObjectsUsingBlock:^(OCTEvent *event, NSUInteger idx, BOOL *stop) {
@@ -128,6 +132,7 @@
     return viewModel.height;
 }
 
+/// 生成VM数组
 - (NSArray *)viewModelsWithEvents:(NSArray *)events {
     return [events.rac_sequence map:^(OCTEvent *event) {
         MRCNewsItemViewModel *viewModel = [[MRCNewsItemViewModel alloc] initWithEvent:event];

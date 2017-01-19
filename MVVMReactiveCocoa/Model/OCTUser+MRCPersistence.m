@@ -1,4 +1,4 @@
-//
+//!
 //  OCTUser+MRCPersistence.m
 //  MVVMReactiveCocoa
 //
@@ -261,6 +261,7 @@
     return [self modelWithDictionary:userDict error:NULL];
 }
 
+/// 从内存取出用户 无则从数据库取
 + (instancetype)mrc_currentUser {
     OCTUser *currentUser = [[MRCMemoryCache sharedInstance] objectForKey:@"currentUser"];
     if (!currentUser) {
@@ -273,6 +274,7 @@
     return currentUser;
 }
 
+/// 通过rawLogin从数据库查找用户
 + (instancetype)mrc_fetchUserWithRawLogin:(NSString *)rawLogin {
     if (rawLogin.length == 0) return nil;
     
@@ -298,6 +300,7 @@
     return user;
 }
 
+/// 从数据库查找用户
 + (instancetype)mrc_fetchUser:(OCTUser *)user {
     __block OCTUser *result = nil;
     
@@ -321,6 +324,7 @@
     return result;
 }
 
+/// 关注用户
 + (BOOL)mrc_followUser:(OCTUser *)user {
     __block BOOL result = YES;
     
@@ -375,6 +379,7 @@
     return result;
 }
 
+/// 取关
 + (BOOL)mrc_unfollowUser:(OCTUser *)user {
     __block BOOL result = YES;
     

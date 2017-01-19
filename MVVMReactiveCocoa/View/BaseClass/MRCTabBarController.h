@@ -1,4 +1,4 @@
-//
+//!
 //  MRCTabBarController.h
 //  MVVMReactiveCocoa
 //
@@ -7,6 +7,8 @@
 //
 
 #import "MRCViewController.h"
+
+/// 作为一个容器存放一个UITabBarController 状态栏样式等返回tabBarController的样式
 
 @interface MRCTabBarController : MRCViewController <UITabBarControllerDelegate>
 

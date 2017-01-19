@@ -1,4 +1,4 @@
-//
+//!
 //  MRCNavigationController.h
 //  MVVMReactiveCocoa
 //
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+
+/// 仅仅重写了preferredStatusBarStyle supportedInterfaceOrientations shouldAutorotate
 @interface MRCNavigationController : UINavigationController
 
 @end

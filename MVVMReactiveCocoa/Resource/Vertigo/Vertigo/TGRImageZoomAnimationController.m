@@ -1,3 +1,4 @@
+//!
 // TGRImageZoomAnimationController.m
 // 
 // Copyright (c) 2013 Guillermo Gonzalez
@@ -49,6 +50,7 @@
     }
 }
 
+/// 图片放大动画
 - (void)animateZoomInTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     MRCSharedAppDelegate.window.backgroundColor = [UIColor blackColor];
     

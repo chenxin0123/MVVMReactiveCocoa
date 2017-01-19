@@ -1,3 +1,4 @@
+//!
 // TGRImageViewController.h
 //
 // Copyright (c) 2013 Guillermo Gonzalez

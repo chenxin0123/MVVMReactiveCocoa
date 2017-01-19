@@ -1,3 +1,4 @@
+//!
 // TGRImageZoomTransition.m
 //
 // Copyright (c) 2013 Guillermo Gonzalez

@@ -38,6 +38,7 @@ extern NSString * const MRCLinkAttributeName;
     [self.avatarButton addTarget:self action:@selector(didClickAvatarButton:) forControlEvents:UIControlEventTouchUpInside];
     
     @weakify(self)
+    // 点击链接
     self.detailLabel.highlightTapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
         @strongify(self)
 
@@ -59,6 +60,7 @@ extern NSString * const MRCLinkAttributeName;
     self.detailLabel.textLayout = viewModel.textLayout;
 }
 
+// 点击头像
 - (void)didClickAvatarButton:(id)sender {
     [self.viewModel.didClickLinkCommand execute:[NSURL mrc_userLinkWithLogin:self.viewModel.event.actorLogin]];
 }

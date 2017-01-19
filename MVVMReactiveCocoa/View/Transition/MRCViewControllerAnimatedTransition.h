@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MRCViewController.h"
 
+/// 动画控制器 处理push pop 动画
 @interface MRCViewControllerAnimatedTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, assign, readonly) UINavigationControllerOperation operation;

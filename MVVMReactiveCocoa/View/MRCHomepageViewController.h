@@ -1,4 +1,4 @@
-//
+//!
 //  MRCHomepageViewController.h
 //  MVVMReactiveCocoa
 //
@@ -8,6 +8,7 @@
 
 #import "MRCTabBarController.h"
 
+/// 添加子视图控制器 处理导航控制器栈
 @interface MRCHomepageViewController : MRCTabBarController
 
 @end

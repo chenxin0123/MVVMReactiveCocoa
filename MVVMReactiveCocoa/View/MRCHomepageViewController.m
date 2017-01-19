@@ -1,4 +1,4 @@
-//
+//!
 //  MRCHomepageViewController.m
 //  MVVMReactiveCocoa
 //
@@ -108,8 +108,11 @@
         [[MRCNavigationController alloc] initWithRootViewController:profileViewController];
     });
 
+    /// 设置控制器
     self.tabBarController.viewControllers = @[ newsNavigationController, reposNavigationController, exploreNavigationController, profileNavigationController ];
 
+    
+    /// 导航控制器堆栈处理
     [MRCSharedAppDelegate.navigationControllerStack pushNavigationController:newsNavigationController];
 
     [[self
@@ -119,6 +122,7 @@
             [MRCSharedAppDelegate.navigationControllerStack popNavigationController];
             [MRCSharedAppDelegate.navigationControllerStack pushNavigationController:tuple.second];
         }];
+    
     self.tabBarController.delegate = self;
 }
 

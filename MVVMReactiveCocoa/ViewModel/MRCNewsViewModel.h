@@ -20,6 +20,6 @@ typedef NS_ENUM(NSUInteger, MRCNewsViewModelType) {
 @property (nonatomic, assign, readonly) MRCNewsViewModelType type;
 @property (nonatomic, strong, readonly) RACCommand *didClickLinkCommand;
 
-- (NSArray *)dataSourceWithEvents:(NSArray *)events;
+//- (NSArray *)dataSourceWithEvents:(NSArray *)events;
 
 @end
